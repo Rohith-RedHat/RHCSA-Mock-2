@@ -1,0 +1,234 @@
+sshpass -p RedH@t ssh root@172.25.250.10 'mv  /etc/.rht_authorized_keys.bak  /etc/.rht_authorized_keys'
+sshpass -p RedH@t ssh root@172.25.250.11 'mv  /etc/.rht_authorized_keys.bak  /etc/.rht_authorized_keys'
+
+/bin/echo ""
+/bin/echo "					serverb.lab.example.com							"
+/bin/echo ""
+/bin/echo " Q1  Hostname and ip"
+/bin/echo ""
+ssh root@serverb.lab.example.com hostname
+/bin/echo ""
+ssh root@serverb.lab.example.com 'grep "ipv4" -A5 /etc/NetworkManager/system-connections/Wired\ connection\ 1.nmconnection'
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q2  Yum repolist"
+/bin/echo ""
+ssh root@serverb.lab.example.com dnf repolist all
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q3  User and Group"
+/bin/echo ""
+ssh root@serverb.lab.example.com cat /root/.bash_history |grep user
+/bin/echo ""
+ssh root@serverb.lab.example.com cat /root/.bash_history |grep group
+/bin/echo ""
+ssh root@serverb.lab.example.com cat /root/.bash_history |grep passwd
+/bin/echo ""
+ssh root@serverb.lab.example.com tail -8 /etc/group
+/bin/echo "" 
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q4  SELINUX"
+/bin/echo ""
+ssh root@serverb.lab.example.com tail -6 /etc/httpd/conf/httpd.conf
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+ssh root@serverb.lab.example.com httpd -t
+/bin/echo ""
+curl http://serverb.lab.example.com:82/file1
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q5  Collabrative directory"
+/bin/echo ""
+ssh root@serverb.lab.example.com ls -ld  /Collections/Movies
+/bin/echo ""
+ssh root@serverb.lab.example.com ls -l   /Collections/Movies/*
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q6  AUTOFS"
+/bin/echo ""
+ssh root@serverb.lab.example.com tail -2 /etc/auto.master
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo ""
+ssh root@serverb.lab.example.com grep "/etc/auto.misc"  /etc/auto.master 
+ssh root@serverb.lab.example.com tail -2 /etc/auto.misc
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q7  Crontab"
+/bin/echo ""
+ssh root@serverb.lab.example.com crontab -lu David
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+
+
+
+/bin/echo ""
+/bin/echo " Q8  UID"
+/bin/echo ""
+ssh root@serverb.lab.example.com id 7314
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q9 TAR"
+/bin/echo ""
+ssh root@serverb.lab.example.com cat /root/.bash_history |grep tar.gz
+ssh root@serverb.lab.example.com ls | grep cmds*
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q10 FIND"
+/bin/echo ""
+ssh root@serverb.lab.example.com ls -a /root/myfinds
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q11 GREP"
+/bin/echo ""
+ssh root@serverb.lab.example.com cat /root/list.txt
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q12 NTP"
+/bin/echo ""
+ssh root@serverb.lab.example.com chronyc sources
+/bin/echo ""
+ssh root@serverb.lab.example.com head /etc/chrony.conf
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q13 Container as a service"
+/bin/echo ""
+ssh alonewolf@serverb.lab.example.com podman ps
+/bin/echo ""
+ssh alonewolf@serverb.lab.example.com 'history | grep "podman run"'
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q14 UMASK"
+/bin/echo ""
+ssh James@serverb.lab.example.com cat /home/James/.bash_profile
+ssh James@serverb.lab.example.com cat /home/James/.bashrc
+/bin/echo ""
+ssh root@serverb.lab.example.com ls -l /home/James
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q15 EXPIRE DATE"
+/bin/echo ""
+ssh root@serverb.lab.example.com grep PASS /etc/login.defs
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q16 SUDO"
+/bin/echo ""
+ssh root@serverb.lab.example.com grep Hollywood  /etc/sudoers
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q17 Application"
+/bin/echo ""
+ssh Helen@serverb.lab.example.com cat /home/Helen/.bash_profile
+/bin/echo ""
+ssh Helen@serverb.lab.example.com cat /home/Helen/.bashrc
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q18 script"
+/bin/echo ""
+ssh root@serverb.lab.example.com cat /usr/local/bin/myfind
+/bin/echo ""
+ssh root@serverb.lab.example.com ls -a /root/mylocate
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo ""
+/bin/echo "					servera.lab.example.com							"
+/bin/echo ""
+/bin/echo ""
+
+/bin/echo ""
+/bin/echo " Q19 Yum repolist"
+/bin/echo ""
+ssh root@servera.lab.example.com yum repolist
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q21 Swap"
+/bin/echo ""
+ssh root@servera.lab.example.com free -m
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+/bin/echo ""
+/bin/echo " Q22 & Q23 LVM create and extend"
+/bin/echo ""
+ssh root@servera.lab.example.com cat /root/.bash_history |grep vg
+/bin/echo ""
+ssh root@servera.lab.example.com cat /root/.bash_history |grep lv
+/bin/echo ""
+ssh root@servera.lab.example.com lsblk
+/bin/echo ""
+ssh root@servera.lab.example.com df -hT
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+
+
+
+/bin/echo ""
+/bin/echo " Q24 Tuned profile"
+/bin/echo ""
+ssh root@servera.lab.example.com cat /root/.bash_history |grep tuned
+/bin/echo ""
+/bin/echo "#############################################################################################################"
+/bin/echo ""

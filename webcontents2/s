@@ -1,0 +1,57 @@
+#!/bin/bash
+ssh student@workstation sed -i 's/production5/netuser5/g' /home/student/.venv/labs/lib/python3.9/site-packages/rhcsa-classroom/rhcsa-compreview3.py 
+ssh student@workstation sed -i 's/localhome/nethome/g' /home/student/.venv/labs/lib/python3.9/site-packages/rhcsa-classroom/rhcsa-compreview3.py
+ssh student@workstation sed -i 's/user-homes/user-shares/g' /home/student/.venv/labs/lib/python3.9/site-packages/rhcsa-classroom/rhcsa-compreview3.py
+ssh student@workstation  cp /home/student/.venv/labs/lib/python3.9/site-packages/rhcsa-classroom/rhcsa-compreview3.py /home/student/.venv/labs/lib/python3.9/site-packages/rhcsa_classroom/rhcsa-compreview3.py
+ssh root@serverb.lab.example.com 'useradd alonewolf'
+ssh root@serverb.lab.example.com 'useradd David'
+ssh root@serverb.lab.example.com 'useradd Joseph'
+ssh root@serverb.lab.example.com 'useradd Helen'
+ssh root@serverb.lab.example.com 'echo "RedH@t" | passwd --stdin alonewolf'
+ssh root@serverb.lab.example.com 'echo "RedH@t" | passwd --stdin root'
+ssh root@serverb.lab.example.com 'echo "RedH@t" | passwd --stdin David'
+ssh root@serverb.lab.example.com 'echo "RedH@t" | passwd --stdin Joseph'
+ssh root@serverb.lab.example.com 'echo "RedH@t" | passwd --stdin Helen'
+ssh root@serverb.lab.example.com 'dnf install container-tools -y'
+ssh student@workstation lab  start rhcsa-compreview3   
+echo "sed -i 's/Listen 30080/Listen 82/g' /etc/httpd/conf/httpd.conf" > /tmp/http
+echo "EXAM output OK for file1"  >  /tmp/file1
+echo "EXAM output OK for file2"  >  /tmp/file2
+echo "EXAM output OK for file3"  >  /tmp/file3
+scp  /tmp/http       root@serverb.lab.example.com:/tmp
+scp  /tmp/file1      root@serverb.lab.example.com:/var/www/html/
+scp  /tmp/file2      root@serverb.lab.example.com:/var/www/html/
+scp /tmp/file3      root@serverb.lab.example.com:/var/www/html/
+ssh root@serverb.lab.example.com sh /tmp/http
+wget localhost/partition
+scp partition  root@servera:
+ssh root@servera.lab.example.com sh partition
+ssh root@servera.lab.example.com udevadm settle
+ssh root@servera.lab.example.com lsblk
+ssh root@servera.lab.example.com  vgcreate -s 8M vg /dev/vdb1
+ssh root@servera.lab.example.com  lvcreate -L 300M  -n swap vg
+ssh root@servera.lab.example.com  lvcreate -L 100M  -n lv  vg
+ssh root@servera.lab.example.com mkswap /dev/vg/swap
+ssh root@servera.lab.example.com 'echo "/dev/vg/swap  swap swap defaults 0 0" >> /etc/fstab'
+ssh root@servera.lab.example.com swapon -a
+ssh root@servera.lab.example.com  free -h
+ssh root@servera.lab.example.com mkfs.ext3  /dev/vg/lv
+ssh root@servera.lab.example.com mkdir /lo
+ssh root@servera.lab.example.com 'echo "/dev/vg/lv  /lo  ext3  defaults 0 0" >> /etc/fstab'
+ssh root@servera.lab.example.com  mount -a
+ssh root@servera.lab.example.com  lsblk
+#ssh root@serverb.lab.example.com yum remove vim -y
+#ssh root@servera.lab.example.com yum remove vim -y
+#ssh root@serverb.lab.example.com yum remove tuned -y
+ssh root@servera.lab.example.com 'tuned-adm profile powersave'
+ssh root@serverb.lab.example.com yum install autofs -y
+ssh root@serverb.lab.example.com rm -rvf /etc/yum.repos.d/*
+ssh root@172.25.250.11 hostnamectl set-hostname clean
+ssh root@172.25.250.11 'nmcli connection modify "Wired connection 1" ipv4.addresses 172.25.250.20/24 ipv4.gateway 172.25.250.100 ipv4.dns 172.25.250.100 ipv4.method static'
+ssh root@172.25.250.11 history -c
+ssh root@172.25.250.10 history -c
+ssh root@172.25.250.11 'mv  /etc/.rht_authorized_keys  /etc/.rht_authorized_keys.bak && reboot'
+ssh student@workstation lab start boot-resetting  
+sleep 40
+ssh root@servera.lab.example.com rm -rvf /etc/yum.repos.d/*
+ssh root@172.25.250.10 'mv  /etc/.rht_authorized_keys  /etc/.rht_authorized_keys.bak'

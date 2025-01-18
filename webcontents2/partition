@@ -1,0 +1,13 @@
+vsize1=1500
+vsize2=500
+
+parted -s /dev/vdb mklabel gpt
+partprobe
+
+fdisk /dev/vdb >/dev/null 2>&1 <<EOF
+n
+1
+
++${vsize1}M
+w
+EOF
